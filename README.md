@@ -34,6 +34,5 @@ sudo ./vfio-setup.sh
 Showcase of executing the manual binding and release files.
 ![ManualExec](https://raw.githubusercontent.com/AX200M/dynamic-gpu-passthrough/refs/heads/main/imgs/ManualExec.png)
 
-
-Showcase of the script at work!
-![ManualExec](https://github.com/AX200M/dynamic-gpu-passthrough/blob/main/vids/Demo.gif?raw=true)
+Showcase of the script at work.
+![DemoVid](https://github.com/AX200M/dynamic-gpu-passthrough/blob/main/vids/Demo.gif?raw=true)
