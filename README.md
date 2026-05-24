@@ -26,9 +26,9 @@ sudo chmod +x vfio-setup.sh
 sudo ./vfio-setup.sh
 ```
 ## Tested Hardware
-|Hardware | Working |
-|----------|----------|
-| CPU: Ryzen 9 9900x ( iGPU)  GPU: RX 9070XT  | ✅ |
+|Hardware | OS | Working |
+|----------|----------|----------|
+| CPU: Ryzen 9 9900x ( iGPU)  GPU: RX 9070XT | Fedora 44 (GNOME) | ✅ |
 
 ## DEMOS
 Showcase of executing the manual binding and release files.
