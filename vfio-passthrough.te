@@ -1,0 +1,13 @@
+
+module vfio-passthrough 1.0;
+
+require {
+	type sysfs_t;
+	type virtqemud_t;
+	class dir add_name;
+	class file create;
+}
+
+#============= virtqemud_t ==============
+allow virtqemud_t sysfs_t:dir add_name;
+allow virtqemud_t sysfs_t:file create;

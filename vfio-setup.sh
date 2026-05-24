@@ -498,6 +498,35 @@ else
     warn "restorecon not found — skipping SELinux labelling (non-SELinux system)."
 fi
 
+# Create SELinux policy module for vfio sysfs access
+if command -v audit2allow &>/dev/null && command -v semodule &>/dev/null; then
+    info "Generating SELinux policy module for vfio sysfs access..."
+
+    # Write a pre-built policy so we don't depend on audit logs existing yet
+    cat > /tmp/vfio-passthrough.te << 'EOF'
+module vfio-passthrough 1.0;
+
+require {
+    type virtqemud_t;
+    type sysfs_t;
+    class dir { add_name write };
+    class file { create write open };
+}
+
+# Allow virtqemud (libvirt hooks) to write to sysfs for driver bind/unbind
+allow virtqemud_t sysfs_t:dir { add_name write };
+allow virtqemud_t sysfs_t:file { create write open };
+EOF
+
+    checkmodule -M -m -o /tmp/vfio-passthrough.mod /tmp/vfio-passthrough.te
+    semodule_package -o /tmp/vfio-passthrough.pp -m /tmp/vfio-passthrough.mod
+    semodule -X 300 -i /tmp/vfio-passthrough.pp
+    rm -f /tmp/vfio-passthrough.te /tmp/vfio-passthrough.mod /tmp/vfio-passthrough.pp
+    success "SELinux policy module installed (vfio-passthrough)."
+else
+    warn "audit2allow not found — skipping SELinux policy (non-SELinux system)."
+fi
+
 # =============================================================================
 # STEP 9 — Optionally install virtualisation packages
 # =============================================================================
