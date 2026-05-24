@@ -490,6 +490,14 @@ HOOK
 chmod +x "${RELEASE_DIR}/run.sh"
 success "Written: ${RELEASE_DIR}/run.sh"
 
+# Fix SELinux labels for hook files (Fedora/RHEL)
+if command -v restorecon &>/dev/null; then
+    info "Setting SELinux labels on hook files..."
+    restorecon -Rv "${HOOK_DIR}/" && success "SELinux labels applied (virt_hook_t)."
+else
+    warn "restorecon not found — skipping SELinux labelling (non-SELinux system)."
+fi
+
 # =============================================================================
 # STEP 9 — Optionally install virtualisation packages
 # =============================================================================
